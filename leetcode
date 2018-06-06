@@ -1,0 +1,24 @@
+1.638大礼包
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        int result = Integer.MAX_VALUE;
+        for(int i=0;i<special.size();i++){
+            List<Integer> offer = special.get(i);
+            boolean flag = true;
+            for(int j=0;j<needs.size();j++){
+                int temp = needs.get(j) - offer.get(j);
+                needs.set(j,temp);
+                if(flag&&temp<0)
+                    flag = false;
+            }
+            if(flag)
+                result = Math.min(result,shoppingOffers(price,special,needs)+offer.get(needs.size()));
+            for(int k=0;k<needs.size();k++){
+                needs.set(k,needs.get(k)+offer.get(k));
+            }
+        }
+        int nonoffer = 0;
+        for(int i=0;i<needs.size();i++){
+            nonoffer += needs.get(i)*price.get(i);
+        }
+        return Math.min(result,nonoffer);
+    }
